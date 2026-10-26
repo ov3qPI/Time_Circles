@@ -1,0 +1,13 @@
+signing/
+vendor/
+*.jks
+*.keystore
+*.apk
+*.dex
+*.class
+*.log
+*.zip
+__pycache__/
+.gradle/
+build/
+.idea/

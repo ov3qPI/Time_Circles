@@ -45,15 +45,15 @@ import kotlin.math.min
 import kotlin.math.round
 import kotlin.math.sin
 private const val MAIN_ACTIVITY_VERSION="MainActivity_v20261026T051610Z"
-private const val BG=0xFF100C0A.toInt()
-private const val INNER=0xFF1D1714.toInt()
-private const val PANEL=0xFF251E19.toInt()
-private const val TRACK=0xFF3B322C.toInt()
-private const val FILL=0xFFD5B48B.toInt()
-private const val MAIN=0xFFE5CCAE.toInt()
-private const val SOFT=0xFFBCA58F.toInt()
-private const val BORDER=0xFF8C755C.toInt()
-private const val DANGER=0xFFE3A08F.toInt()
+private const val BG=0xFF000000.toInt()
+private const val INNER=0xFF000000.toInt()
+private const val PANEL=0xFF000000.toInt()
+private const val TRACK=0xFF000000.toInt()
+private const val FILL=0xFFFF0000.toInt()
+private const val MAIN=0xFFFF0000.toInt()
+private const val SOFT=0xFFFF0000.toInt()
+private const val BORDER=0xFFFF0000.toInt()
+private const val DANGER=0xFFFF0000.toInt()
 class MainActivity:Activity() {
 private val ui=Handler(Looper.getMainLooper())
 private val workerGeneration=AtomicInteger()
@@ -129,5 +129,5 @@ private var detail="--"
 private var ticks:List<Double> =emptyList()
 fun update(f:Double,v:String,d:String,markers:List<Double> =emptyList()) { fraction=f.coerceIn(0.0,1.0);mainValue=v;detail=d;ticks=markers;invalidate() }
 private fun drawText(canvas:Canvas,s:String,sp:Float,y:Float,color:Int,bold:Boolean=false) { paint.reset();paint.isAntiAlias=true;paint.color=color;paint.style=Paint.Style.FILL;paint.typeface=if(bold) Typeface.create("sans-serif-medium",Typeface.NORMAL) else Typeface.create("sans-serif",Typeface.NORMAL);paint.textSize=sp*scaled;paint.textAlign=Paint.Align.CENTER;canvas.drawText(s,width/2f,y,paint) }
-override fun onDraw(canvas:Canvas) { super.onDraw(canvas);if(width<20||height<20) return;val cx=width/2f;val h=height.toFloat();drawText(canvas,heading,16f,19f*density,MAIN,true);val diameter=min(width*0.47f,h*0.73f).coerceAtLeast(min(width*0.35f,h*0.54f));val r=diameter/2f;val cy=(h+24f*density)/2f;val stroke=diameter*0.11f;val arcRadius=r-stroke/2-diameter*0.05f;paint.reset();paint.isAntiAlias=true;paint.style=Paint.Style.FILL;paint.color=INNER;canvas.drawCircle(cx,cy,diameter*0.34f,paint);val bounds=RectF(cx-arcRadius,cy-arcRadius,cx+arcRadius,cy+arcRadius);paint.style=Paint.Style.STROKE;paint.strokeWidth=stroke;paint.strokeCap=Paint.Cap.BUTT;paint.color=TRACK;canvas.drawArc(bounds,-90f,360f,false,paint);paint.color=FILL;canvas.drawArc(bounds,-90f,(fraction*360).toFloat(),false,paint);paint.color=MAIN;paint.strokeWidth=1.5f*density;paint.strokeCap=Paint.Cap.ROUND;for(tick in ticks) { val angle=Math.toRadians(-90.0+tick*360);val a=arcRadius+stroke/2-2*density;val b=arcRadius+stroke/2+4*density;val sx=cx+cos(angle).toFloat()*a;val sy=cy+sin(angle).toFloat()*a;val ex=cx+cos(angle).toFloat()*b;val ey=cy+sin(angle).toFloat()*b;canvas.drawLine(sx,sy,ex,ey,paint) };drawText(canvas,mainValue,22f,cy+5f*density,MAIN);drawText(canvas,detail,13f,cy+22f*density,SOFT) }
+override fun onDraw(canvas:Canvas) { super.onDraw(canvas);if(width<20||height<20) return;val cx=width/2f;val h=height.toFloat();drawText(canvas,heading,16f,19f*density,MAIN,true);val diameter=min(width*0.47f,h*0.73f).coerceAtLeast(min(width*0.35f,h*0.54f));val r=diameter/2f;val cy=(h+24f*density)/2f;val stroke=diameter*0.11f;val arcRadius=r-stroke/2-diameter*0.05f;paint.reset();paint.isAntiAlias=true;paint.style=Paint.Style.FILL;paint.color=INNER;canvas.drawCircle(cx,cy,diameter*0.34f,paint);val bounds=RectF(cx-arcRadius,cy-arcRadius,cx+arcRadius,cy+arcRadius);paint.style=Paint.Style.STROKE;paint.strokeWidth=1.5f*density;paint.strokeCap=Paint.Cap.BUTT;paint.color=FILL;canvas.drawArc(bounds,-90f,360f,false,paint);paint.strokeWidth=stroke;canvas.drawArc(bounds,-90f,(fraction*360).toFloat(),false,paint);paint.color=MAIN;paint.strokeWidth=1.5f*density;paint.strokeCap=Paint.Cap.ROUND;for(tick in ticks) { val angle=Math.toRadians(-90.0+tick*360);val a=arcRadius+stroke/2-2*density;val b=arcRadius+stroke/2+4*density;val sx=cx+cos(angle).toFloat()*a;val sy=cy+sin(angle).toFloat()*a;val ex=cx+cos(angle).toFloat()*b;val ey=cy+sin(angle).toFloat()*b;canvas.drawLine(sx,sy,ex,ey,paint) };drawText(canvas,mainValue,22f,cy+5f*density,MAIN);drawText(canvas,detail,13f,cy+22f*density,SOFT) }
 }

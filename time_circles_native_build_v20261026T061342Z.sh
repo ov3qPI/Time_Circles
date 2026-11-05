@@ -54,6 +54,7 @@ java -Xmx1024m -cp "$VENDOR/tools/r8-9.5.26.jar" com.android.tools.r8.D8 --relea
 printf 'Packaging APK\n'
 cp "$WORK/resources.apk" "$WORK/unaligned.apk"
 (cd "$WORK/dex";zip -q -0 "$WORK/unaligned.apk" classes*.dex)
+python "$PROJECT/pack_jar_resources_v20261105T155723Z.py" "$WORK/unaligned.apk" "$VENDOR/jars"
 if command -v zipalign >/dev/null 2>&1;then zipalign -f 4 "$WORK/unaligned.apk" "$WORK/aligned.apk";else python "$PROJECT/align_apk_v20261026T061342Z.py" "$WORK/unaligned.apk" "$WORK/aligned.apk";fi
 KEYSTORE="${TIME_CIRCLES_KEYSTORE:-$HOME/.android/time_circles_signing.jks}"
 if [[ ! -f "$KEYSTORE" ]];then
